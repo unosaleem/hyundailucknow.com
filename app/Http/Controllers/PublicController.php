@@ -1,12 +1,18 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\{Car,Offer,Video,Lead,Slider}; use Illuminate\Http\Request;
+use App\Models\{Car,Offer,Video,Lead,Slider,Setting}; use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 use Carbon\CarbonImmutable;
 class PublicController extends Controller {
  public function home(){
-  $data=['sliders'=>collect(),'cars'=>collect(),'offers'=>collect(),'videos'=>collect()];
+  $data=[
+   'setting'=>Schema::hasTable('settings') ? Setting::current() : new Setting(),
+   'sliders'=>collect(),
+   'cars'=>collect(),
+   'offers'=>collect(),
+   'videos'=>collect(),
+  ];
   $today=CarbonImmutable::now(config('app.timezone'))->toDateString();
   if(Schema::hasTable('sliders')){
    $data['sliders']=Slider::where('is_active',true)

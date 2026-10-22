@@ -3,8 +3,11 @@
 <head><meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Find your Hyundai at BR Hyundai and get your best available offer." />
-  <title>BR Hyundai | Find Your Hyundai</title>
+  <title>{{ $setting->meta_title ?: 'BR Hyundai | Find Your Hyundai' }}</title>
+  <meta name="description" content="{{ $setting->meta_description ?: 'Find your Hyundai at BR Hyundai and get your best available offer.' }}" />
+  @if(!empty($setting->meta_keywords))
+  <meta name="keywords" content="{{ $setting->meta_keywords }}" />
+  @endif
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -47,31 +50,67 @@
   </style>
 </head>
 <body class="bg-slate-50 font-sans text-ink antialiased">
-  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-ink/85 text-white backdrop-blur-lg">
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-ink/90 text-white backdrop-blur-lg">
     <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8">
       <a href="#" class="flex items-center gap-3" aria-label="BR Hyundai home">
         <img src="{{ asset('storage/logo.png') }}" alt="BR Hyundai logo" width="200px" class="">
-
       </a>
       <nav class="hidden items-center gap-8 text-sm font-medium text-white/75 lg:flex">
         <a class="transition hover:text-white" href="#models">Hyundai Models</a>
         <a class="transition hover:text-white" href="#offers">Offers</a>
+        <a class="transition hover:text-white" href="#videos">Videos</a>
         <a class="transition hover:text-white" href="#why-us">Why BR Hyundai</a>
         <a class="transition hover:text-white" href="#test-drive">Test Drive</a>
       </nav>
       <div class="flex items-center gap-3">
         <button data-open-form type="button"
         class="hidden items-center justify-center rounded-full bg-[#002C5F] px-5 py-2.5 text-sm font-extrabold uppercase tracking-wide text-white shadow-lg shadow-[#002C5F]/30 transition hover:-translate-y-0.5 hover:bg-[#00AAD2] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#00AAD2]/50 md:inline-flex">
-  GET BEST OFFER
-</button>
-        <button id="menu-button" class="grid h-10 w-10 place-items-center rounded-lg border border-white/20 lg:hidden" aria-label="Open menu" aria-expanded="false">
-          <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          GET BEST OFFER
+        </button>
+        <button id="menu-button" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-white/20 bg-white/5 transition hover:bg-white/10 lg:hidden" aria-label="Toggle navigation menu" aria-expanded="false">
+          <svg id="menu-icon-open" aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="menu-icon-close" aria-hidden="true" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
       </div>
     </div>
-    <nav id="mobile-menu" class="hidden border-t border-white/10 bg-ink px-5 py-4 lg:hidden">
-      <div class="flex flex-col gap-4 text-sm text-white/80">
-        <a href="#models">Hyundai Models</a><a href="#offers">Offers</a><a href="#why-us">Why BR Hyundai</a><a href="#test-drive">Test Drive</a>
+    <nav id="mobile-menu" class="hidden max-h-[85vh] overflow-y-auto border-t border-white/10 bg-ink/95 px-5 py-6 shadow-2xl backdrop-blur-xl lg:hidden">
+      <div class="flex flex-col gap-3 text-base font-semibold text-white/90">
+        <a class="mobile-nav-link flex items-center justify-between rounded-xl px-3 py-2 transition hover:bg-white/10 hover:text-white" href="#models">
+          <span>Hyundai Models</span>
+          <span class="text-xs text-electric">→</span>
+        </a>
+        <a class="mobile-nav-link flex items-center justify-between rounded-xl px-3 py-2 transition hover:bg-white/10 hover:text-white" href="#offers">
+          <span>Current Offers</span>
+          <span class="text-xs text-electric">→</span>
+        </a>
+        <a class="mobile-nav-link flex items-center justify-between rounded-xl px-3 py-2 transition hover:bg-white/10 hover:text-white" href="#videos">
+          <span>Showroom Videos</span>
+          <span class="text-xs text-electric">→</span>
+        </a>
+        <a class="mobile-nav-link flex items-center justify-between rounded-xl px-3 py-2 transition hover:bg-white/10 hover:text-white" href="#why-us">
+          <span>Why BR Hyundai</span>
+          <span class="text-xs text-electric">→</span>
+        </a>
+        <a class="mobile-nav-link flex items-center justify-between rounded-xl px-3 py-2 transition hover:bg-white/10 hover:text-white" href="#test-drive">
+          <span>Book Test Drive</span>
+          <span class="text-xs text-electric">→</span>
+        </a>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5">
+        <button data-open-form type="button" class="flex w-full items-center justify-center rounded-xl bg-electric py-3.5 text-xs font-black uppercase tracking-wider text-ink shadow-lg shadow-electric/20 transition hover:bg-white">
+          GET BEST OFFER ↗
+        </button>
+        <div class="grid grid-cols-2 gap-3 text-xs font-bold">
+          <a href="tel:{{ $setting->clean_phone }}" class="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 py-3 text-white transition hover:bg-white/15">
+            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L9 10.73a16 16 0 0 0 4.27 4.27l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z"/></svg>
+            CALL US
+          </a>
+          <a href="https://wa.me/{{ $setting->clean_whatsapp }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-white transition hover:opacity-95">
+            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.08 0C5.56 0 .26 5.3.26 11.82c0 2.08.54 4.1 1.57 5.88L.15 24l6.45-1.69a11.8 11.8 0 0 0 5.47 1.35h.01c6.52 0 11.82-5.3 11.82-11.82 0-3.16-1.23-6.13-3.4-8.34ZM12.08 21.6h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.83 1 1.02-3.73-.24-.38a9.8 9.8 0 1 1 8.42 4.69Zm5.38-7.35c-.29-.14-1.71-.84-1.98-.94-.27-.1-.47-.14-.67.14-.2.29-.76.94-.93 1.13-.17.19-.34.22-.63.07-1.71-.85-2.83-1.52-3.96-3.45-.3-.52.3-.48.86-1.6.1-.2.05-.37-.03-.51-.07-.14-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.03 1.01-1.03 2.47s1.06 2.87 1.2 3.07c.14.2 2.08 3.18 5.04 4.46 1.87.81 2.6.88 3.54.74.57-.09 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.2-.56-.34Z"/></svg>
+            WHATSAPP
+          </a>
+        </div>
       </div>
     </nav>
   </header>
@@ -216,11 +255,11 @@
     <section class="relative isolate overflow-hidden px-5 py-24 text-white lg:px-8"><img class="absolute inset-0 -z-20 h-full w-full object-cover" loading="lazy" src="https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/bayon/highlights/bc4i-6innerkvpc.jpg" alt="" /><div class="absolute inset-0 -z-10 bg-ink/75"></div><div class="relative mx-auto max-w-7xl"><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">Your next chapter starts here</p><h2 class="mt-4 max-w-2xl text-5xl font-extrabold tracking-tight sm:text-6xl">Ready to drive your Hyundai?</h2><p class="mt-5 max-w-lg text-white/70">Choose your model and get the latest available offer from BR Hyundai.</p><button data-open-form class="mt-8 rounded-full bg-electric px-7 py-4 text-sm font-extrabold text-ink transition hover:bg-white">GET MY BEST OFFER →</button></div></section>
   </main>
 
-  <footer class="bg-ink px-5 py-10 text-white lg:px-8"><div class="mx-auto flex max-w-7xl flex-wrap justify-between gap-8"><div><div class="flex items-center gap-3"><img src="{{ asset('storage/logo.png') }}" width="200px" alt="BR Hyundai logo" class=""></div><p class="mt-4 max-w-xs text-sm leading-6 text-white/45">Your trusted Hyundai partner for a confident drive.</p></div><div class="text-sm text-white/60"><p class="font-bold text-white">Quick links</p><div class="mt-4 flex flex-col gap-2"><a href="#models" class="hover:text-electric">Models</a><a href="#offers" class="hover:text-electric">Offers</a><a href="#test-drive" class="hover:text-electric">Test Drive</a></div></div><div class="text-sm text-white/60"><p class="font-bold text-white">Contact</p><p class="mt-4">+91 9724 777 048</p><p class="mt-2">Mon – Sun · 9am – 7pm</p></div></div><div class="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-5 text-xs text-white/35">© 2026 BR Hyundai. All rights reserved.</div></footer>
+  <footer class="bg-ink px-5 py-10 text-white lg:px-8"><div class="mx-auto flex max-w-7xl flex-wrap justify-between gap-8"><div><div class="flex items-center gap-3"><img src="{{ asset('storage/logo.png') }}" width="200px" alt="BR Hyundai logo" class=""></div><p class="mt-4 max-w-xs text-sm leading-6 text-white/45">{{ $setting->address ?: 'Your trusted Hyundai partner for a confident drive in Lucknow.' }}</p></div><div class="text-sm text-white/60"><p class="font-bold text-white">Quick links</p><div class="mt-4 flex flex-col gap-2"><a href="#models" class="hover:text-electric">Models</a><a href="#offers" class="hover:text-electric">Offers</a><a href="#videos" class="hover:text-electric">Videos</a><a href="#test-drive" class="hover:text-electric">Test Drive</a></div></div><div class="text-sm text-white/60"><p class="font-bold text-white">Contact</p><p class="mt-4"><a href="tel:{{ $setting->clean_phone }}" class="text-white hover:text-electric font-semibold">{{ $setting->phone ?: '+91 9724 777 048' }}</a></p><p class="mt-2">{{ $setting->working_hours ?: 'Mon – Sun · 9am – 7pm' }}</p>@if($setting->email)<p class="mt-1"><a href="mailto:{{ $setting->email }}" class="hover:text-electric">{{ $setting->email }}</a></p>@endif</div></div><div class="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-5 text-xs text-white/35">© {{ date('Y') }} BR Hyundai. All rights reserved.</div></footer>
 
  <aside class="contact-rail fixed bottom-6 right-6 z-30 hidden flex-col gap-3 md:flex" aria-label="Contact BR Hyundai">
 
-  <a href="https://wa.me/919724777048" target="_blank" rel="noopener noreferrer"
+  <a href="https://wa.me/{{ $setting->clean_whatsapp }}" target="_blank" rel="noopener noreferrer"
      aria-label="Chat with BR Hyundai on WhatsApp"
      class="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-green-900/20 transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300">
     <svg aria-hidden="true" class="h-8 w-8 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -229,8 +268,8 @@
     <span class="contact-label sr-only">WhatsApp</span>
   </a>
 
-  <a href="tel:+919724777048"
-     aria-label="Call BR Hyundai at +91 97247 77048"
+  <a href="tel:{{ $setting->clean_phone }}"
+     aria-label="Call BR Hyundai at {{ $setting->phone }}"
      class="flex h-14 w-14 items-center justify-center rounded-full bg-hyundai text-white shadow-xl shadow-slate-900/20 transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-electric/60">
     <svg aria-hidden="true" class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L9 10.73a16 16 0 0 0 4.27 4.27l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z"/>
@@ -238,11 +277,11 @@
     <span class="contact-label sr-only">Call us</span>
   </a>
 
-</aside>
+ </aside>
   
   <div id="mobile-cta" class="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-slate-200 bg-white/95 px-3 py-2 shadow-2xl backdrop-blur md:hidden" style="padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));">
 
-  <a href="tel:+919724777048" aria-label="Call BR Hyundai"
+  <a href="tel:{{ $setting->clean_phone }}" aria-label="Call BR Hyundai at {{ $setting->phone }}"
      class="flex min-w-[64px] flex-col items-center justify-center gap-1 text-[10px] font-bold leading-none text-slate-500">
     <svg aria-hidden="true" class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L9 10.73a16 16 0 0 0 4.27 4.27l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z"/>
@@ -250,7 +289,7 @@
     <span>CALL</span>
   </a>
 
-  <a href="https://wa.me/919724777048" aria-label="Chat with BR Hyundai on WhatsApp"
+  <a href="https://wa.me/{{ $setting->clean_whatsapp }}" aria-label="Chat with BR Hyundai on WhatsApp" target="_blank" rel="noopener noreferrer"
      class="flex min-w-[64px] flex-col items-center justify-center gap-1 text-[10px] font-bold leading-none text-slate-500">
     <svg aria-hidden="true" class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
       <path d="M20.5 3.5A11.8 11.8 0 0 0 12.08 0C5.56 0 .26 5.3.26 11.82c0 2.08.54 4.1 1.57 5.88L.15 24l6.45-1.69a11.8 11.8 0 0 0 5.47 1.35h.01c6.52 0 11.82-5.3 11.82-11.82 0-3.16-1.23-6.13-3.4-8.34ZM12.08 21.6h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.83 1 1.02-3.73-.24-.38a9.8 9.8 0 1 1 8.42 4.69Zm5.38-7.35c-.29-.14-1.71-.84-1.98-.94-.27-.1-.47-.14-.67.14-.2.29-.76.94-.93 1.13-.17.19-.34.22-.63.07-1.71-.85-2.83-1.52-3.96-3.45-.3-.52.3-.48.86-1.6.1-.2.05-.37-.03-.51-.07-.14-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.03 1.01-1.03 2.47s1.06 2.87 1.2 3.07c.14.2 2.08 3.18 5.04 4.46 1.87.81 2.6.88 3.54.74.57-.09 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.2-.56-.34Z"/>
@@ -259,7 +298,7 @@
   </a>
 
   <button data-open-form type="button"
-          class="flex h-11 items-center justify-center rounded-full bg-electric px-7 text-xs font-extrabold leading-none text-ink">
+          class="flex h-11 items-center justify-center rounded-full bg-electric px-7 text-xs font-extrabold leading-none text-ink shadow-lg shadow-electric/20 transition hover:bg-white">
     GET OFFER
   </button>
 
@@ -445,9 +484,48 @@
 
       startAuto();
     }
-    const menuButton = document.getElementById('menu-button'); const mobileMenu = document.getElementById('mobile-menu');
-    menuButton.addEventListener('click', () => { const open = mobileMenu.classList.toggle('hidden') === false; menuButton.setAttribute('aria-expanded', String(open)); });
-    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    const menuButton = document.getElementById('menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+
+    const toggleMobileMenu = (forceClose = false) => {
+      if (!mobileMenu || !menuButton) return;
+      const willBeOpen = forceClose ? false : mobileMenu.classList.contains('hidden');
+      if (willBeOpen) {
+        mobileMenu.classList.remove('hidden');
+        menuButton.setAttribute('aria-expanded', 'true');
+        iconOpen?.classList.add('hidden');
+        iconClose?.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+        iconOpen?.classList.remove('hidden');
+        iconClose?.classList.add('hidden');
+      }
+    };
+
+    menuButton?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMobileMenu();
+    });
+
+    mobileMenu?.querySelectorAll('a, button').forEach((item) => {
+      item.addEventListener('click', () => {
+        toggleMobileMenu(true);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (mobileMenu && !mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && !menuButton.contains(e.target)) {
+        toggleMobileMenu(true);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleMobileMenu(true);
+    });
   </script>
 </body>
 </html>

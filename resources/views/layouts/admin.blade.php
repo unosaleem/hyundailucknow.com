@@ -17,7 +17,7 @@
         <div><p class="font-black tracking-wide">BR HYUNDAI</p><p class="text-xs text-slate-400">Admin workspace</p></div>
     </div>
     <nav class="flex-1 space-y-2 px-4 py-6">
-        @foreach ([['admin.dashboard','Dashboard','grid'],['admin.sliders.index','Sliders','image'],['admin.cars.index','Cars','car'],['admin.offers.index','Offers','tag'],['admin.videos.index','Videos','play'],['admin.leads.index','Leads','users']] as $nav)
+        @foreach ([['admin.dashboard','Dashboard','grid'],['admin.sliders.index','Sliders','image'],['admin.cars.index','Cars','car'],['admin.offers.index','Offers','tag'],['admin.videos.index','Videos','play'],['admin.leads.index','Leads','users'],['admin.settings.edit','Settings','cog']] as $nav)
             <a href="{{ route($nav[0]) }}" class="{{ request()->routeIs($nav[0].'*') ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' : 'text-slate-300 hover:bg-white/10 hover:text-white' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition">
                 <svg aria-hidden="true" class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     @if ($nav[2] === 'grid')
@@ -30,6 +30,8 @@
                         <path d="m20 13-7 7-9-9V4h7l9 9Z"/><path d="M7.5 7.5h.01"/>
                     @elseif ($nav[2] === 'play')
                         <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3V9Z"/>
+                    @elseif ($nav[2] === 'cog')
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
                     @else
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
                     @endif
