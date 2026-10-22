@@ -56,9 +56,11 @@ class Slider extends Model
             return null;
         }
 
-        return Str::startsWith($this->image, ['http://', 'https://'])
-            ? $this->image
-            : Storage::disk('public')->url($this->image);
+        if (Str::startsWith($this->image, ['http://', 'https://'])) {
+            return $this->image;
+        }
+
+        return asset('storage/' . ltrim($this->image, '/'));
     }
 
     public function getMobileImageUrlAttribute(): ?string
@@ -67,8 +69,10 @@ class Slider extends Model
             return $this->image_url;
         }
 
-        return Str::startsWith($this->mobile_image, ['http://', 'https://'])
-            ? $this->mobile_image
-            : Storage::disk('public')->url($this->mobile_image);
+        if (Str::startsWith($this->mobile_image, ['http://', 'https://'])) {
+            return $this->mobile_image;
+        }
+
+        return asset('storage/' . ltrim($this->mobile_image, '/'));
     }
 }

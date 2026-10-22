@@ -127,10 +127,10 @@
                 @endif
                 <picture class="block w-full">
                   @if($slider->mobile_image)
-                    <source media="(max-width: 767px)" srcset="{{ asset($slider->mobile_image_url) }}">
+                    <source media="(max-width: 767px)" srcset="{{ $slider->mobile_image_url }}">
                   @endif
                   <img
-                    src="{{ asset($slider->image_url) }}"
+                    src="{{ $slider->image_url }}"
                     alt="{{ $slider->title ?: 'BR Hyundai Banner' }}"
                     class="block h-auto w-full object-contain"
                     @if($loop->first) fetchpriority="high" @else loading="lazy" @endif

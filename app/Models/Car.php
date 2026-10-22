@@ -23,6 +23,6 @@ class Car extends Model
 
         return Str::startsWith($this->image, ['http://', 'https://'])
             ? $this->image
-            : Storage::disk('public')->url($this->image);
+            : asset('storage/' . ltrim($this->image, '/'));
     }
 }

@@ -39,14 +39,14 @@
                     <tr class="border-t border-slate-100 hover:bg-slate-50">
                         <td class="px-5 py-4 font-bold">
                             @if($item->image_url)
-                                <img src="{{ asset($item->image_url) }}" alt="{{ $item->title ?: 'Slider banner' }}" class="h-14 w-28 rounded-lg border border-slate-200 object-cover shadow-sm">
+                                <img src="{{ $item->image_url }}" alt="{{ $item->title ?: 'Slider banner' }}" class="h-14 w-28 rounded-lg border border-slate-200 object-cover shadow-sm">
                             @else
                                 <span class="text-slate-400">No desktop image</span>
                             @endif
                         </td>
                         <td class="px-5 py-4">
                             @if($item->mobile_image)
-                                <img src="{{ asset($item->mobile_image_url) }}" alt="Mobile banner" class="h-14 w-12 rounded-lg border border-slate-200 object-cover shadow-sm">
+                                <img src="{{ $item->mobile_image_url }}" alt="Mobile banner" class="h-14 w-12 rounded-lg border border-slate-200 object-cover shadow-sm">
                             @else
                                 <span class="text-xs text-slate-400">Same as desktop</span>
                             @endif

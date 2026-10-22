@@ -26,6 +26,6 @@ class Offer extends Model {
     {
         if (!$this->image) return null;
         return Str::startsWith($this->image, ['http://', 'https://'])
-            ? $this->image : Storage::disk('public')->url($this->image);
+            ? $this->image : asset('storage/' . ltrim($this->image, '/'));
     }
 }
