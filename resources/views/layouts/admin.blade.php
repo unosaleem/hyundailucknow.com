@@ -17,11 +17,13 @@
         <div><p class="font-black tracking-wide">BR HYUNDAI</p><p class="text-xs text-slate-400">Admin workspace</p></div>
     </div>
     <nav class="flex-1 space-y-2 px-4 py-6">
-        @foreach ([['admin.dashboard','Dashboard','grid'],['admin.cars.index','Cars','car'],['admin.offers.index','Offers','tag'],['admin.videos.index','Videos','play'],['admin.leads.index','Leads','users']] as $nav)
+        @foreach ([['admin.dashboard','Dashboard','grid'],['admin.sliders.index','Sliders','image'],['admin.cars.index','Cars','car'],['admin.offers.index','Offers','tag'],['admin.videos.index','Videos','play'],['admin.leads.index','Leads','users']] as $nav)
             <a href="{{ route($nav[0]) }}" class="{{ request()->routeIs($nav[0].'*') ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' : 'text-slate-300 hover:bg-white/10 hover:text-white' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition">
                 <svg aria-hidden="true" class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     @if ($nav[2] === 'grid')
                         <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
+                    @elseif ($nav[2] === 'image')
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
                     @elseif ($nav[2] === 'car')
                         <path d="m5 11 1.5-4h11L19 11m-14 0h14v6H5zm3 3h.01M16 14h.01M7 11h10"/>
                     @elseif ($nav[2] === 'tag')
@@ -48,7 +50,7 @@
     <main class="mx-auto max-w-7xl px-4 py-6 sm:px-8 sm:py-8">
         @if (session('success'))<div class="mb-6 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800"><span class="text-lg">✓</span>{{ session('success') }}</div>@endif
         @if (session('error'))<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">{{ session('error') }}</div>@endif
-        @if ($errors->any())<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"><p class="font-bold">Please fix the following:</p><ul class="mt-2 list-inside list-disc">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+        @if (isset($errors) && $errors->any())<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"><p class="font-bold">Please fix the following:</p><ul class="mt-2 list-inside list-disc">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
         @yield('content')
     </main>
 </div>

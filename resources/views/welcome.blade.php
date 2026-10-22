@@ -77,26 +77,56 @@
   </header>
 
   <main> 
-    <section class="relative isolate w-full overflow-hidden bg-ink text-white pt-[72px]">
+    <section id="hero-slider-section" class="relative isolate w-full overflow-hidden bg-ink text-white pt-[72px]">
+      @if(isset($sliders) && $sliders->count() > 0)
+        <div id="hero-carousel" class="relative w-full overflow-hidden" data-slider-count="{{ $sliders->count() }}">
+          <div id="slider-track" class="relative flex w-full transition-transform duration-700 ease-out">
+            @foreach($sliders as $index => $slider)
+              <div class="slider-slide relative w-full shrink-0 flex-none" data-slide-index="{{ $index }}">
+                @if($slider->link)
+                  <a href="{{ $slider->link }}" class="block w-full focus:outline-none">
+                @endif
+                <picture class="block w-full">
+                  @if($slider->mobile_image)
+                    <source media="(max-width: 767px)" srcset="{{ asset($slider->mobile_image_url) }}">
+                  @endif
+                  <img
+                    src="{{ asset($slider->image_url) }}"
+                    alt="{{ $slider->title ?: 'BR Hyundai Banner' }}"
+                    class="block h-auto w-full object-contain"
+                    @if($loop->first) fetchpriority="high" @else loading="lazy" @endif
+                    decoding="async"
+                  >
+                </picture>
+                @if($slider->link)
+                  </a>
+                @endif
+              </div>
+            @endforeach
+          </div>
 
-    <picture class="block w-full">
-        <!-- Mobile Image -->
-        <source
-            media="(max-width: 767px)"
-            srcset="https://hyperlocal-cms-content.onlinesales.ai/Mobile_banner_BAYON_1440x1883_ed2c9d8847.jpg"
-        >
+          @if($sliders->count() > 1)
+            <button id="slider-prev" type="button" aria-label="Previous banner" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 sm:h-12 sm:w-12 place-items-center rounded-full bg-ink/60 text-white backdrop-blur-md transition hover:bg-electric hover:text-ink shadow-lg opacity-80 hover:opacity-100">
+              <svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button id="slider-next" type="button" aria-label="Next banner" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 sm:h-12 sm:w-12 place-items-center rounded-full bg-ink/60 text-white backdrop-blur-md transition hover:bg-electric hover:text-ink shadow-lg opacity-80 hover:opacity-100">
+              <svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
 
-        <!-- Desktop Image -->
-        <img
-            src="https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/bayon/highlights/bc4i-book-innerkv-pc.jpg"
-            alt="Hyundai Bayon"
-            class="block h-auto w-full object-contain"
-            fetchpriority="high"
-            decoding="async"
-        >
-    </picture>
-
-</section>
+            <div id="slider-dots" class="absolute bottom-4 inset-x-0 z-20 flex justify-center items-center gap-2">
+              @foreach($sliders as $index => $slider)
+                <button type="button" data-index="{{ $index }}" aria-label="Go to banner {{ $index + 1 }}" class="slider-dot h-2.5 rounded-full transition-all duration-300 {{ $loop->first ? 'w-8 bg-electric' : 'w-2.5 bg-white/50 hover:bg-white' }}"></button>
+              @endforeach
+            </div>
+          @endif
+        </div>
+      @else
+        <picture class="block w-full">
+          <source media="(max-width: 767px)" srcset="https://hyperlocal-cms-content.onlinesales.ai/Mobile_banner_BAYON_1440x1883_ed2c9d8847.jpg">
+          <img src="https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/bayon/highlights/bc4i-book-innerkv-pc.jpg" alt="Hyundai Bayon" class="block h-auto w-full object-contain" fetchpriority="high" decoding="async">
+        </picture>
+      @endif
+    </section>
 
     <section id="models" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
       <div class="flex flex-wrap items-end justify-between gap-5">
@@ -342,8 +372,79 @@
       modelCards.forEach((card) => { card.classList.toggle('hidden', selected !== 'all' && card.dataset.category !== selected); });
     }));
     const track = document.getElementById('model-track');
-    document.getElementById('prev-model').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .8, behavior: 'smooth' }));
-    document.getElementById('next-model').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .8, behavior: 'smooth' }));
+    document.getElementById('prev-model')?.addEventListener('click', () => track && track.scrollBy({ left: -track.clientWidth * .8, behavior: 'smooth' }));
+    document.getElementById('next-model')?.addEventListener('click', () => track && track.scrollBy({ left: track.clientWidth * .8, behavior: 'smooth' }));
+
+    // Hero Slider Carousel
+    const heroCarousel = document.getElementById('hero-carousel');
+    if (heroCarousel) {
+      const sliderTrack = document.getElementById('slider-track');
+      const slides = heroCarousel.querySelectorAll('.slider-slide');
+      const dots = heroCarousel.querySelectorAll('.slider-dot');
+      const prevBtn = document.getElementById('slider-prev');
+      const nextBtn = document.getElementById('slider-next');
+      const count = slides.length;
+      let currentIndex = 0;
+      let autoTimer = null;
+
+      const goToSlide = (index) => {
+        if (count <= 1 || !sliderTrack) return;
+        currentIndex = (index + count) % count;
+        sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.classList.remove('w-2.5', 'bg-white/50');
+            dot.classList.add('w-8', 'bg-electric');
+          } else {
+            dot.classList.remove('w-8', 'bg-electric');
+            dot.classList.add('w-2.5', 'bg-white/50');
+          }
+        });
+      };
+
+      const startAuto = () => {
+        if (count <= 1) return;
+        stopAuto();
+        autoTimer = setInterval(() => goToSlide(currentIndex + 1), 5000);
+      };
+
+      const stopAuto = () => {
+        if (autoTimer) {
+          clearInterval(autoTimer);
+          autoTimer = null;
+        }
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAuto(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAuto(); });
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          goToSlide(Number(dot.dataset.index));
+          startAuto();
+        });
+      });
+
+      heroCarousel.addEventListener('mouseenter', stopAuto);
+      heroCarousel.addEventListener('mouseleave', startAuto);
+      heroCarousel.addEventListener('touchstart', stopAuto, { passive: true });
+      heroCarousel.addEventListener('touchend', startAuto, { passive: true });
+
+      let touchStartX = 0;
+      heroCarousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      heroCarousel.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) goToSlide(currentIndex + 1);
+          else goToSlide(currentIndex - 1);
+          startAuto();
+        }
+      }, { passive: true });
+
+      startAuto();
+    }
     const menuButton = document.getElementById('menu-button'); const mobileMenu = document.getElementById('mobile-menu');
     menuButton.addEventListener('click', () => { const open = mobileMenu.classList.toggle('hidden') === false; menuButton.setAttribute('aria-expanded', String(open)); });
     mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));

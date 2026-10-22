@@ -1,15 +1,23 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\{Car,Offer,Video,Lead}; use Illuminate\Http\Request;
+use App\Models\{Car,Offer,Video,Lead,Slider}; use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 use Carbon\CarbonImmutable;
 class PublicController extends Controller {
  public function home(){
-  $data=['cars'=>collect(),'offers'=>collect(),'videos'=>collect()];
+  $data=['sliders'=>collect(),'cars'=>collect(),'offers'=>collect(),'videos'=>collect()];
+  $today=CarbonImmutable::now(config('app.timezone'))->toDateString();
+  if(Schema::hasTable('sliders')){
+   $data['sliders']=Slider::where('is_active',true)
+    ->where(function($query) use ($today){$query->whereNull('starts_at')->orWhereDate('starts_at','<=',$today);})
+    ->where(function($query) use ($today){$query->whereNull('ends_at')->orWhereDate('ends_at','>=',$today);})
+    ->orderBy('sort_order')
+    ->latest()
+    ->get();
+  }
   if(Schema::hasTable('cars'))$data['cars']=Car::where('is_active',true)->orderBy('sort_order')->latest()->get();
   if(Schema::hasTable('offers')){
-   $today=CarbonImmutable::now(config('app.timezone'))->toDateString();
    $data['offers']=Offer::where('is_active',true)
     ->where(function($query) use ($today){$query->whereNull('starts_at')->orWhereDate('starts_at','<=',$today);})
     ->where(function($query) use ($today){$query->whereNull('ends_at')->orWhereDate('ends_at','>=',$today);})
