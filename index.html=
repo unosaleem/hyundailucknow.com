@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find your Hyundai at BR Hyundai and get your best available offer." />
+  <title>BR Hyundai | Find Your Hyundai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { hyundai: '#002c5f', electric: '#00aad2', ink: '#07111f' },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          boxShadow: { glow: '0 0 0 5px rgba(0, 170, 210, .14)' }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .hp-field { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; }
+    .hero-video { animation: slowZoom 16s ease-in-out infinite alternate; }
+    @keyframes slowZoom { from { transform: scale(1.02); } to { transform: scale(1.09); } }
+    .fade-up { animation: fadeUp .7s both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-backdrop { transition: opacity .25s ease; }
+    .modal-card { transition: transform .3s ease, opacity .25s ease; }
+    .modal-hidden { pointer-events: none; opacity: 0; }
+    .modal-hidden .modal-card { transform: translateY(24px) scale(.98); opacity: 0; }
+    .modal-visible .modal-card { transform: translateY(0) scale(1); opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 font-sans text-ink antialiased">
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-ink/85 text-white backdrop-blur-lg">
+    <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8">
+      <a href="#" class="flex items-center gap-3" aria-label="BR Hyundai home">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-electric text-sm font-extrabold text-ink">BR</span>
+        <span class="text-sm font-bold tracking-[.18em]">BR HYUNDAI</span>
+      </a>
+      <nav class="hidden items-center gap-8 text-sm font-medium text-white/75 lg:flex">
+        <a class="transition hover:text-white" href="#models">Hyundai Models</a>
+        <a class="transition hover:text-white" href="#offers">Offers</a>
+        <a class="transition hover:text-white" href="#why-us">Why BR Hyundai</a>
+        <a class="transition hover:text-white" href="#test-drive">Test Drive</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button data-open-form class="rounded-full bg-electric px-4 py-2.5 text-xs font-extrabold text-ink shadow-lg shadow-electric/20 transition hover:-translate-y-0.5 hover:bg-white sm:px-5 sm:text-sm">GET BEST OFFER</button>
+        <button id="menu-button" class="grid h-10 w-10 place-items-center rounded-lg border border-white/20 lg:hidden" aria-label="Open menu" aria-expanded="false">
+          <span class="text-xl">☰</span>
+        </button>
+      </div>
+    </div>
+    <nav id="mobile-menu" class="hidden border-t border-white/10 bg-ink px-5 py-4 lg:hidden">
+      <div class="flex flex-col gap-4 text-sm text-white/80">
+        <a href="#models">Hyundai Models</a><a href="#offers">Offers</a><a href="#why-us">Why BR Hyundai</a><a href="#test-drive">Test Drive</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="relative isolate min-h-[730px] overflow-hidden bg-ink pt-[72px] text-white">
+      <img class="absolute inset-0 -z-20 h-full w-full object-cover opacity-50" src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=2200&q=85" alt="" />
+      <video class="hero-video absolute inset-0 -z-10 h-full w-full object-cover opacity-50 mix-blend-screen" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=2200&q=85">
+        <source src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1575/1080p.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/80 to-ink/20"></div>
+      <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-transparent to-ink/30"></div>
+      <div class="mx-auto grid min-h-[658px] max-w-7xl items-center gap-12 px-5 py-16 lg:grid-cols-[1fr_390px] lg:px-8">
+        <div class="max-w-2xl fade-up">
+          <p class="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[.28em] text-electric"><span class="h-px w-10 bg-electric"></span> Authorized Hyundai Dealership</p>
+          <h1 class="text-5xl font-extrabold leading-[.98] tracking-[-.055em] sm:text-7xl">Find your Hyundai.<br /><span class="text-electric">Get your best offer.</span></h1>
+          <p class="mt-6 max-w-lg text-base leading-7 text-white/70 sm:text-lg">Explore Hyundai's newest range and unlock tailored dealer benefits from BR Hyundai.</p>
+          <div class="mt-9 flex flex-wrap gap-4">
+            <button data-open-form class="rounded-full bg-electric px-7 py-4 text-sm font-extrabold text-ink transition hover:-translate-y-1 hover:bg-white">GET BEST OFFER <span class="ml-2">→</span></button>
+            <a href="#models" class="rounded-full border border-white/30 px-7 py-4 text-sm font-bold transition hover:border-white hover:bg-white/10">EXPLORE MODELS</a>
+          </div>
+          <div class="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-xs font-medium text-white/60">
+            <span>✓ Finance assistance</span><span>✓ Exchange support</span><span>✓ Easy test drives</span>
+          </div>
+        </div>
+        <div class="rounded-3xl border border-white/20 bg-white/95 p-6 text-ink shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-7">
+          <p class="text-xs font-bold uppercase tracking-[.2em] text-electric">Start your journey</p>
+          <h2 class="mt-2 text-2xl font-extrabold tracking-tight">Get your best Hyundai offer</h2>
+          <p class="mt-2 text-sm text-slate-500">Tell us what you are looking for. Our team will call you shortly.</p>
+          <form data-lead-form class="mt-6 space-y-3">
+            <div class="hp-field" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+            <input type="hidden" name="form_started_at" value="" />
+            <label class="block text-xs font-bold text-slate-600">CHOOSE MODEL
+              <select name="model" required class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none transition focus:border-electric focus:ring-4 focus:ring-electric/10">
+                <option value="">Select Hyundai model</option><option>Creta</option><option>Venue</option><option>Venue N Line</option><option>Exter</option><option>Verna</option><option>i20</option><option>i20 N Line</option><option>Alcazar</option><option>Grand i10 Nios</option><option>Aura</option><option>Creta Electric</option><option>IONIQ 5</option>
+              </select>
+            </label>
+            <label class="block text-xs font-bold text-slate-600">FULL NAME<input name="name" required placeholder="Enter your name" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none transition focus:border-electric focus:ring-4 focus:ring-electric/10" /></label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="block text-xs font-bold text-slate-600">CITY<input name="city" required placeholder="Your city" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none transition focus:border-electric focus:ring-4 focus:ring-electric/10" /></label>
+              <label class="block text-xs font-bold text-slate-600">MOBILE<input name="mobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit number" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none transition focus:border-electric focus:ring-4 focus:ring-electric/10" /></label>
+            </div>
+            <button class="w-full rounded-xl bg-hyundai py-4 text-sm font-extrabold text-white transition hover:bg-electric hover:text-ink">GET MY BEST OFFER</button>
+            <p class="text-center text-[11px] text-slate-400">🔒 Your information is safe with us.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="models" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">Hyundai Cars</p><h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Find your Hyundai</h2><p class="mt-3 max-w-xl text-slate-500">Explore Hyundai SUVs, hatchbacks, sedans and electric cars available through BR Hyundai.</p></div>
+        <div class="flex gap-2"><button id="prev-model" class="grid h-11 w-11 place-items-center rounded-full border border-slate-200 text-lg transition hover:border-hyundai hover:bg-hyundai hover:text-white" aria-label="Previous model">←</button><button id="next-model" class="grid h-11 w-11 place-items-center rounded-full border border-slate-200 text-lg transition hover:border-hyundai hover:bg-hyundai hover:text-white" aria-label="Next model">→</button></div>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-2 text-xs font-bold" role="tablist" aria-label="Filter Hyundai cars">
+        <button type="button" data-filter="all" class="model-filter rounded-full bg-hyundai px-4 py-2 text-white transition hover:-translate-y-0.5" role="tab" aria-selected="true">All cars</button><button type="button" data-filter="suv" class="model-filter rounded-full bg-slate-100 px-4 py-2 text-slate-500 transition hover:-translate-y-0.5 hover:bg-slate-200" role="tab" aria-selected="false">SUVs</button><button type="button" data-filter="hatchback" class="model-filter rounded-full bg-slate-100 px-4 py-2 text-slate-500 transition hover:-translate-y-0.5 hover:bg-slate-200" role="tab" aria-selected="false">Hatchbacks</button><button type="button" data-filter="sedan" class="model-filter rounded-full bg-slate-100 px-4 py-2 text-slate-500 transition hover:-translate-y-0.5 hover:bg-slate-200" role="tab" aria-selected="false">Sedans</button><button type="button" data-filter="electric" class="model-filter rounded-full bg-slate-100 px-4 py-2 text-slate-500 transition hover:-translate-y-0.5 hover:bg-slate-200" role="tab" aria-selected="false">Electric</button>
+      </div>
+      <div id="model-track" class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/creta-suvpc.png" alt="Hyundai Creta" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">CRETA</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SUV</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Premium SUV with bold design, smart technology and confident performance.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.5L Petrol / Diesel</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹11.11 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Creta" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET CRETA OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/venue_thumbnail_pc.png" alt="Hyundai Venue" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">VENUE</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SUV</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Connected technology, bold styling and agile performance for city adventures.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.2L Petrol / Turbo</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹7.94 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Venue" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET VENUE OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/verna_thumbanil_pc.png" alt="Hyundai Verna" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">VERNA</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SEDAN</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Sophisticated styling and thrilling performance for a confident daily drive.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.5L Petrol / Turbo</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹11.07 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Verna" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET VERNA OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/exter_thumbnail_pc.png" alt="Hyundai Exter" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">EXTER</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SUV</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">A smart, expressive SUV designed for everyday exploration and versatility.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.2L Petrol / CNG</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹6.20 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Exter" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET EXTER OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/i20pe_PC.png" alt="Hyundai i20" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">i20</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">HATCHBACK</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Premium hatchback styling, spacious comfort and enjoyable urban performance.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.2L Petrol</strong><span class="text-slate-400">Engine</span></span><span class="text-right"><strong class="block text-hyundai">₹7.04 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="i20" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET i20 OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/thumbnail460x250.png" alt="Hyundai Alcazar" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">ALCAZAR</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SUV</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Three-row premium SUV comfort with space, style and technology for every family.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.5L Turbo / Diesel</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹14.50 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Alcazar" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET ALCAZAR OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/grandi10nios_thumbnail_pc.png" alt="Hyundai Grand i10 Nios" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">GRAND i10 NIOS</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">HATCHBACK</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">A practical and feature-rich hatchback made for comfortable everyday journeys.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.2L Petrol / CNG</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹5.92 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Grand i10 Nios" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET i10 NIOS OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105" src="        https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/aura_thumbnail_pc.png" alt="Hyundai Aura" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">AURA</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">SEDAN</span></div>        <p class="mt-3 text-sm leading-6 text-slate-500">Refined compact sedan comfort with a stylish design and useful technology.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.2L Petrol / CNG</strong><span class="text-slate-400">Engine options</span></span><span class="text-right"><strong class="block text-hyundai">₹6.54 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Aura" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET AURA OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-contain p-5 transition duration-500 hover:scale-105" src="https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/creta_thumbnail_pc.png" alt="Hyundai Creta Electric" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">CRETA ELECTRIC</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">ELECTRIC</span></div><p class="mt-3 text-sm leading-6 text-slate-500">A locally made electric SUV with smart technology, bold design and easy everyday range.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">42 / 51.4 kWh</strong><span class="text-slate-400">Battery options</span></span><span class="text-right"><strong class="block text-hyundai">₹17.99 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Creta Electric" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET CRETA ELECTRIC OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-contain p-5 transition duration-500 hover:scale-105" src="https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/ioniq_thumbnail_pc.png" alt="Hyundai IONIQ 5" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">IONIQ 5</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">ELECTRIC</span></div><p class="mt-3 text-sm leading-6 text-slate-500">A progressive electric vehicle combining futuristic design and effortless mobility.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">72.6 kWh Battery</strong><span class="text-slate-400">Electric powertrain</span></span><span class="text-right"><strong class="block text-hyundai">₹46.05 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="IONIQ 5" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET IONIQ 5 OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-contain p-5 transition duration-500 hover:scale-105" src="https://www.hyundai.com/content/dam/hyundai/in/en/data/vehicle-thumbnail/Thumbnail/venue_n_line_thumbnail_pc.png" alt="Hyundai Venue N Line" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">VENUE N LINE</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">N LINE SUV</span></div><p class="mt-3 text-sm leading-6 text-slate-500">Sporty design and engaging turbo performance with an unmistakable N Line character.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.0L Turbo Petrol</strong><span class="text-slate-400">Engine</span></span><span class="text-right"><strong class="block text-hyundai">₹10.00 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="Venue N Line" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET VENUE N LINE OFFER ↗</button></div></article>
+        <article class="model-card overflow-hidden rounded-3xl border border-slate-200 bg-white"><div class="h-52 overflow-hidden bg-slate-100"><img loading="lazy" class="h-full w-full object-contain p-5 transition duration-500 hover:scale-105" src="https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/i20-n-line/Highlights/pc/i20-n-linethumbnail-pc.png" alt="Hyundai i20 N Line" /></div><div class="flex min-h-[220px] flex-col p-6"><div class="flex items-center justify-between"><h3 class="text-2xl font-extrabold">i20 N LINE</h3><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">N LINE</span></div><p class="mt-3 text-sm leading-6 text-slate-500">A sharper hatchback with sporty styling, turbo performance and connected features.</p><div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs"><span><strong class="block text-slate-800">1.0L Turbo Petrol</strong><span class="text-slate-400">Engine</span></span><span class="text-right"><strong class="block text-hyundai">₹10.18 Lakh*</strong><span class="text-slate-400">Ex-showroom</span></span></div><button data-model="i20 N Line" data-open-form class="mt-auto pt-5 text-left text-sm font-extrabold text-hyundai transition hover:text-electric">GET i20 N LINE OFFER ↗</button></div></article>
+      </div>
+      <p class="mt-5 text-xs leading-5 text-slate-400">*Starting ex-showroom prices and specifications are indicative and may vary by city, variant and current Hyundai India updates. Please confirm the final price with BR Hyundai.</p>
+    </section>
+
+    <section id="offers" class="bg-ink px-5 py-20 text-white lg:px-8 lg:py-28">
+      <div class="mx-auto max-w-7xl"><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">Made for your next drive</p><div class="mt-3 flex flex-wrap items-end justify-between gap-5"><h2 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Hyundai offers of the month</h2><p class="max-w-md text-sm leading-6 text-white/55">Explore current dealer benefits and get a personalised quote from BR Hyundai.</p></div>
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          <article class="group relative overflow-hidden rounded-3xl bg-[#102442]"><div class="flex min-h-[220px] items-center justify-center overflow-hidden bg-slate-100 p-2"><img loading="lazy" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" src="assets/offers/01.jpg" alt="Hyundai Creta offer" /></div><div class="flex min-h-[310px] flex-col p-7"><span class="text-xs font-bold uppercase tracking-widest text-electric">Most loved SUV</span><h3 class="mt-4 text-3xl font-extrabold">CRETA</h3><p class="mt-3 text-sm leading-6 text-white/65">Step into a premium SUV with confident performance, smart technology and everyday comfort made for every journey.</p><button data-model="Creta" data-open-form class="mt-auto w-full rounded-full bg-electric px-5 py-3.5 text-xs font-extrabold text-ink transition group-hover:bg-white">GET OFFER →</button></div></article>
+          <article class="group relative overflow-hidden rounded-3xl bg-[#102442]"><div class="flex min-h-[220px] items-center justify-center overflow-hidden bg-slate-100 p-2"><img loading="lazy" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" src="assets/offers/02.jpg" alt="Hyundai Venue offer" /></div><div class="flex min-h-[310px] flex-col p-7"><span class="text-xs font-bold uppercase tracking-widest text-electric">Urban explorer</span><h3 class="mt-4 text-3xl font-extrabold">VENUE</h3><p class="mt-3 text-sm leading-6 text-white/65">Enjoy bold design, connected technology and agile performance in a compact SUV that is ready for every city adventure.</p><button data-model="Venue" data-open-form class="mt-auto w-full rounded-full bg-electric px-5 py-3.5 text-xs font-extrabold text-ink transition group-hover:bg-white">GET OFFER →</button></div></article>
+          <article class="group relative overflow-hidden rounded-3xl bg-[#102442]"><div class="flex min-h-[220px] items-center justify-center overflow-hidden bg-slate-100 p-2"><img loading="lazy" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" src="assets/offers/03.jpg" alt="Hyundai Verna offer" /></div><div class="flex min-h-[310px] flex-col p-7"><span class="text-xs font-bold uppercase tracking-widest text-electric">Drive different</span><h3 class="mt-4 text-3xl font-extrabold">VERNA</h3><p class="mt-3 text-sm leading-6 text-white/65">Experience sophisticated styling, thrilling performance and advanced safety in a sedan designed to make every drive memorable.</p><button data-model="Verna" data-open-form class="mt-auto w-full rounded-full bg-electric px-5 py-3.5 text-xs font-extrabold text-ink transition group-hover:bg-white">GET OFFER →</button></div></article>
+          <article class="group relative overflow-hidden rounded-3xl bg-[#102442]"><div class="flex min-h-[220px] items-center justify-center overflow-hidden bg-slate-100 p-2"><img loading="lazy" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" src="assets/offers/04.jpg" alt="Hyundai Exter offer" /></div><div class="flex min-h-[310px] flex-col p-7"><span class="text-xs font-bold uppercase tracking-widest text-electric">Adventure ready</span><h3 class="mt-4 text-3xl font-extrabold">EXTER</h3><p class="mt-3 text-sm leading-6 text-white/65">Discover a smart, expressive SUV with practical comfort, modern features and an adventurous everyday character.</p><button data-model="Exter" data-open-form class="mt-auto w-full rounded-full bg-electric px-5 py-3.5 text-xs font-extrabold text-ink transition group-hover:bg-white">GET OFFER →</button></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos" class="bg-slate-50 px-5 py-20 lg:px-8 lg:py-28">
+      <div class="mx-auto max-w-7xl">
+        <div class="text-center">
+          <p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">See it in motion</p>
+          <h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Hyundai videos</h2>
+          <p class="mx-auto mt-3 max-w-xl text-slate-500">Explore Hyundai design, technology and performance before you take the wheel.</p>
+        </div>
+        <div class="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl bg-ink shadow-2xl shadow-slate-300/50">
+          <div class="aspect-video w-full">
+            <iframe
+              class="h-full w-full"
+              src="https://www.youtube.com/embed/TNq_PQpr1s0?autoplay=1&mute=1&loop=1&playlist=TNq_PQpr1s0&playsinline=1&rel=0&modestbranding=1"
+              title="Hyundai India videos"
+              allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="mt-6 text-center">
+          <a href="https://www.youtube.com/results?search_query=Hyundai+India+official" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-hyundai transition hover:text-electric">Watch more on YouTube ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-us" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28"><div class="text-center"><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">The BR Hyundai promise</p><h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Why choose BR Hyundai?</h2></div><div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><div class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-2xl">✦</span><h3 class="mt-7 font-extrabold">Authorized dealership</h3><p class="mt-2 text-sm leading-6 text-slate-500">A trusted Hyundai sales experience.</p></div><div class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-2xl">◈</span><h3 class="mt-7 font-extrabold">Expert sales team</h3><p class="mt-2 text-sm leading-6 text-slate-500">Advice that fits your lifestyle.</p></div><div class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-2xl">↗</span><h3 class="mt-7 font-extrabold">Finance assistance</h3><p class="mt-2 text-sm leading-6 text-slate-500">Simple plans, clear guidance.</p></div><div class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-2xl">♡</span><h3 class="mt-7 font-extrabold">Dedicated support</h3><p class="mt-2 text-sm leading-6 text-slate-500">Here before and after your drive.</p></div></div></section>
+
+    <section id="test-drive" class="relative overflow-hidden bg-hyundai px-5 py-20 text-white lg:px-8 lg:py-24"><div class="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-electric/20 blur-3xl"></div><div class="relative mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-8"><div><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">Feel the difference</p><h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Experience your Hyundai.</h2><p class="mt-4 max-w-xl text-white/70">Book a test drive and experience your preferred Hyundai model on your terms.</p></div><button data-open-form data-enquiry="Test Drive Enquiry" class="rounded-full bg-white px-7 py-4 text-sm font-extrabold text-hyundai transition hover:-translate-y-1 hover:bg-electric">BOOK A TEST DRIVE →</button></div></section>
+
+    <section class="relative isolate overflow-hidden px-5 py-24 text-white lg:px-8"><img class="absolute inset-0 -z-20 h-full w-full object-cover" loading="lazy" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2200&q=85" alt="" /><div class="absolute inset-0 -z-10 bg-ink/75"></div><div class="relative mx-auto max-w-7xl"><p class="text-xs font-extrabold uppercase tracking-[.25em] text-electric">Your next chapter starts here</p><h2 class="mt-4 max-w-2xl text-5xl font-extrabold tracking-tight sm:text-6xl">Ready to drive your Hyundai?</h2><p class="mt-5 max-w-lg text-white/70">Choose your model and get the latest available offer from BR Hyundai.</p><button data-open-form class="mt-8 rounded-full bg-electric px-7 py-4 text-sm font-extrabold text-ink transition hover:bg-white">GET MY BEST OFFER →</button></div></section>
+  </main>
+
+  <footer class="bg-ink px-5 py-10 text-white lg:px-8"><div class="mx-auto flex max-w-7xl flex-wrap justify-between gap-8"><div><div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-lg bg-electric text-xs font-extrabold text-ink">BR</span><span class="font-bold tracking-[.16em]">BR HYUNDAI</span></div><p class="mt-4 max-w-xs text-sm leading-6 text-white/45">Your trusted Hyundai partner for a confident drive.</p></div><div class="text-sm text-white/60"><p class="font-bold text-white">Quick links</p><div class="mt-4 flex flex-col gap-2"><a href="#models" class="hover:text-electric">Models</a><a href="#offers" class="hover:text-electric">Offers</a><a href="#test-drive" class="hover:text-electric">Test Drive</a></div></div><div class="text-sm text-white/60"><p class="font-bold text-white">Contact</p><p class="mt-4">+91 98765 43210</p><p class="mt-2">Mon – Sun · 9am – 7pm</p></div></div><div class="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-5 text-xs text-white/35">© 2026 BR Hyundai. All rights reserved.</div></footer>
+
+  <div id="mobile-cta" class="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur md:hidden"><a href="tel:+919876543210" class="text-center text-[10px] font-bold text-slate-500">☎<br />CALL</a><a href="https://wa.me/919876543210" class="text-center text-[10px] font-bold text-slate-500">◉<br />WHATSAPP</a><button data-open-form class="rounded-full bg-electric px-7 py-3 text-xs font-extrabold text-ink">GET OFFER</button></div>
+
+  <div id="form-modal" class="modal-hidden fixed inset-0 z-50 grid place-items-end bg-ink/70 p-0 backdrop-blur-sm sm:place-items-center sm:p-5" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card max-h-[95vh] w-full overflow-y-auto rounded-t-3xl bg-white p-6 text-ink shadow-2xl sm:max-w-md sm:rounded-3xl sm:p-8">
+      <div class="flex items-start justify-between"><div><p class="text-xs font-extrabold uppercase tracking-[.2em] text-electric">BR Hyundai</p><h2 id="modal-title" class="mt-2 text-2xl font-extrabold">Get your best offer</h2></div><button id="close-modal" class="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-xl text-slate-500" aria-label="Close form">×</button></div>
+      <form id="modal-form" class="mt-6 space-y-3"><div class="hp-field" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div><input type="hidden" name="form_started_at" value="" /><label class="block text-xs font-bold text-slate-600">CHOOSE MODEL<select name="model" required class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-electric focus:ring-4 focus:ring-electric/10"><option value="">Select Hyundai model</option><option>Creta</option><option>Venue</option><option>Venue N Line</option><option>Exter</option><option>Verna</option><option>i20</option><option>i20 N Line</option><option>Alcazar</option><option>Grand i10 Nios</option><option>Aura</option><option>Creta Electric</option><option>IONIQ 5</option></select></label><label class="block text-xs font-bold text-slate-600">FULL NAME<input name="name" required placeholder="Enter your name" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-electric focus:ring-4 focus:ring-electric/10" /></label><label class="block text-xs font-bold text-slate-600">CITY<input name="city" required placeholder="Your city" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-electric focus:ring-4 focus:ring-electric/10" /></label><label class="block text-xs font-bold text-slate-600">MOBILE NUMBER<input name="mobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit number" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-electric focus:ring-4 focus:ring-electric/10" /></label><button class="w-full rounded-xl bg-hyundai py-4 text-sm font-extrabold text-white transition hover:bg-electric hover:text-ink">GET MY BEST OFFER</button><p class="text-center text-[11px] text-slate-400">🔒 Your information is safe with us.</p></form>
+      <div id="success-state" class="hidden py-8 text-center"><div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-3xl text-emerald-600">✓</div><h3 class="mt-5 text-2xl font-extrabold">Thank you!</h3><p class="mt-2 text-sm leading-6 text-slate-500">Your Hyundai enquiry has been received. Our team will contact you shortly.</p><button id="success-close" class="mt-6 rounded-full bg-hyundai px-6 py-3 text-sm font-bold text-white">EXPLORE MODELS</button></div>
+    </div>
+  </div>
+  <script>
+    const modal = document.getElementById('form-modal');
+    const modalForm = document.getElementById('modal-form');
+    const success = document.getElementById('success-state');
+    document.querySelectorAll('form').forEach((form) => {
+      const startedAt = form.elements.form_started_at;
+      if (startedAt) startedAt.value = String(Date.now());
+    });
+    const openModal = (model) => {
+      modalForm.classList.remove('hidden'); success.classList.add('hidden');
+      modal.classList.remove('modal-hidden'); modal.classList.add('modal-visible'); document.body.classList.add('overflow-hidden');
+      if (model) modalForm.elements.model.value = model;
+      setTimeout(() => modalForm.elements.name.focus(), 100);
+    };
+    const closeModal = () => { modal.classList.add('modal-hidden'); modal.classList.remove('modal-visible'); document.body.classList.remove('overflow-hidden'); };
+    document.querySelectorAll('[data-open-form]').forEach((button) => button.addEventListener('click', () => {
+      modalForm.dataset.enquiry = button.dataset.enquiry || 'Best Offer';
+      openModal(button.dataset.model);
+    }));
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    document.getElementById('success-close').addEventListener('click', () => { closeModal(); document.getElementById('models').scrollIntoView(); });
+    modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
+    const submitLead = async (form, onSuccess) => {
+      const submitButton = form.querySelector('button[type="submit"], button');
+      const originalText = submitButton.textContent;
+      submitButton.disabled = true;
+      submitButton.textContent = 'SAVING...';
+      try {
+        const payload = new FormData(form);
+        payload.set('enquiry_type', form.dataset.enquiry || 'Best Offer');
+        const response = await fetch('save-lead.php', { method: 'POST', body: payload });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || 'Unable to save your enquiry.');
+        onSuccess();
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unable to save your enquiry. Please try again.';
+        let status = form.querySelector('[data-form-status]');
+        if (!status) {
+          status = document.createElement('p');
+          status.dataset.formStatus = 'true';
+          status.className = 'text-center text-xs font-semibold text-red-600';
+          form.append(status);
+        }
+        status.textContent = message;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    };
+    modalForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      submitLead(modalForm, () => { modalForm.classList.add('hidden'); success.classList.remove('hidden'); });
+    });
+    document.querySelectorAll('[data-lead-form]').forEach((form) => form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      submitLead(form, () => { openModal(form.elements.model.value); modalForm.classList.add('hidden'); success.classList.remove('hidden'); });
+    }));
+    const modelFilters = document.querySelectorAll('.model-filter');
+    const modelCards = document.querySelectorAll('#model-track .model-card');
+    modelCards.forEach((card) => {
+      const category = card.querySelector('span')?.textContent.toLowerCase() || '';
+      const model = card.querySelector('h3')?.textContent.toLowerCase() || '';
+      card.dataset.category = category.includes('electric') ? 'electric' : category.includes('hatchback') || model.includes('i20') || model.includes('grand i10') ? 'hatchback' : category.includes('sedan') || model === 'aura' || model === 'verna' ? 'sedan' : 'suv';
+    });
+    modelFilters.forEach((filter) => filter.addEventListener('click', () => {
+      const selected = filter.dataset.filter;
+      modelFilters.forEach((item) => {
+        const active = item === filter;
+        item.classList.toggle('bg-hyundai', active);
+        item.classList.toggle('text-white', active);
+        item.classList.toggle('bg-slate-100', !active);
+        item.classList.toggle('text-slate-500', !active);
+        item.setAttribute('aria-selected', String(active));
+      });
+      modelCards.forEach((card) => { card.classList.toggle('hidden', selected !== 'all' && card.dataset.category !== selected); });
+    }));
+    const track = document.getElementById('model-track');
+    document.getElementById('prev-model').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .8, behavior: 'smooth' }));
+    document.getElementById('next-model').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .8, behavior: 'smooth' }));
+    const menuButton = document.getElementById('menu-button'); const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => { const open = mobileMenu.classList.toggle('hidden') === false; menuButton.setAttribute('aria-expanded', String(open)); });
+    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+  </script>
+</body>
+</html>
