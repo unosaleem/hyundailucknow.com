@@ -28,7 +28,10 @@ class OfferController extends Controller
     {
         $data = $this->validated($request);
         $data['is_active'] = $request->boolean('is_active');
-        if ($request->hasFile('image')) $data['image'] = $request->file('image')->store('offers', 'public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('offers', 'public');
+            $this->syncToRootStorage($data['image']);
+        }
         Offer::create($data);
         return redirect()->route('admin.offers.index')->with('success', 'Offer created.');
     }
@@ -40,8 +43,11 @@ class OfferController extends Controller
         $data = $this->validated($request);
         $data['is_active'] = $request->boolean('is_active');
         if ($request->hasFile('image')) {
-            if ($offer->image && ! filter_var($offer->image, FILTER_VALIDATE_URL)) Storage::disk('public')->delete($offer->image);
+            if ($offer->image) {
+                $this->deleteFromBothStorages($offer->image);
+            }
             $data['image'] = $request->file('image')->store('offers', 'public');
+            $this->syncToRootStorage($data['image']);
         } else unset($data['image']);
         $offer->update($data);
         return redirect()->route('admin.offers.index')->with('success', 'Offer updated.');
@@ -49,7 +55,9 @@ class OfferController extends Controller
 
     public function destroy(Offer $offer)
     {
-        if ($offer->image && ! filter_var($offer->image, FILTER_VALIDATE_URL)) Storage::disk('public')->delete($offer->image);
+        if ($offer->image) {
+            $this->deleteFromBothStorages($offer->image);
+        }
         $offer->delete();
         return back()->with('success', 'Offer deleted.');
     }
@@ -59,6 +67,28 @@ class OfferController extends Controller
         $data = $request->validate(['is_active' => ['required', 'boolean']]);
         $offer->update(['is_active' => $data['is_active']]);
         return redirect()->route('admin.offers.index', $request->query())->with('success', 'Offer status updated.');
+    }
+
+    private function syncToRootStorage(string $path): void
+    {
+        $source = storage_path('app/public/' . $path);
+        $target = base_path('storage/' . $path);
+        if (file_exists($source)) {
+            @mkdir(dirname($target), 0777, true);
+            @copy($source, $target);
+        }
+    }
+
+    private function deleteFromBothStorages(string $path): void
+    {
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return;
+        }
+        Storage::disk('public')->delete($path);
+        $target = base_path('storage/' . $path);
+        if (file_exists($target)) {
+            @unlink($target);
+        }
     }
 
     private function validated(Request $request): array

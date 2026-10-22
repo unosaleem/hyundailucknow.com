@@ -89,15 +89,35 @@ class CarController extends Controller
 
     private function storeImage(Request $request): ?string
     {
-        return $request->hasFile('image')
-            ? $request->file('image')->store('cars', 'public')
-            : null;
+        if (! $request->hasFile('image')) {
+            return null;
+        }
+
+        $path = $request->file('image')->store('cars', 'public');
+        $this->syncToRootStorage($path);
+        return $path;
     }
 
     private function deleteImage(?string $image): void
     {
-        if ($image && ! Str::startsWith($image, ['http://', 'https://'])) {
-            Storage::disk('public')->delete($image);
+        if (! $image || Str::startsWith($image, ['http://', 'https://'])) {
+            return;
+        }
+
+        Storage::disk('public')->delete($image);
+        $target = base_path('storage/' . $image);
+        if (file_exists($target)) {
+            @unlink($target);
+        }
+    }
+
+    private function syncToRootStorage(string $path): void
+    {
+        $source = storage_path('app/public/' . $path);
+        $target = base_path('storage/' . $path);
+        if (file_exists($source)) {
+            @mkdir(dirname($target), 0777, true);
+            @copy($source, $target);
         }
     }
 }
