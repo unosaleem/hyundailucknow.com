@@ -361,12 +361,41 @@
       const originalText = submitButton.textContent;
       submitButton.disabled = true;
       submitButton.textContent = 'SAVING...';
+      const existingStatus = form.querySelector('[data-form-status]');
+      if (existingStatus) existingStatus.remove();
       try {
         const payload = new FormData(form);
         payload.set('enquiry_type', form.dataset.enquiry || 'Best Offer');
-        const response = await fetch('{{ route('leads.store') }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, 'Accept': 'application/json' }, body: payload });
-        const result = await response.json();
-        if (!response.ok || !result.success) throw new Error(result.message || 'Unable to save your enquiry.');
+        const csrfMeta = document.querySelector('meta[name=csrf-token]');
+        const response = await fetch('{{ route('leads.store') }}', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfMeta ? csrfMeta.content : '',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: payload
+        });
+
+        let result = null;
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          result = await response.json();
+        }
+
+        if (response.status === 419 || (result && result.message && result.message.includes('CSRF'))) {
+          throw new Error('Your session expired. Please refresh the page and try again.');
+        }
+
+        if (!response.ok || !result || !result.success) {
+          let errMessage = result?.message;
+          if (result?.errors) {
+            const firstErr = Object.values(result.errors).flat()[0];
+            if (firstErr) errMessage = firstErr;
+          }
+          throw new Error(errMessage || 'Unable to save your enquiry. Please refresh and try again.');
+        }
+
         onSuccess();
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Unable to save your enquiry. Please try again.';

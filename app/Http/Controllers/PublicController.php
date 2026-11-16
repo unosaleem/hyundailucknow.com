@@ -44,21 +44,32 @@ class PublicController extends Controller {
    'website'=>'nullable|max:0',
    'form_started_at'=>'nullable'
   ]);
-  if($r->filled('website')) return response()->json(['message'=>'Thanks!'],422);
+  if($r->filled('website')) return response()->json(['success'=>false,'message'=>'Thanks!'],422);
   try {
-   $offer = $data['selected_offer_id'] ? Offer::whereKey($data['selected_offer_id'])->where('is_active',true)->first() : null;
+   $offerId = !empty($data['selected_offer_id']) ? (int)$data['selected_offer_id'] : null;
+   $offer = $offerId ? Offer::whereKey($offerId)->where('is_active',true)->first() : null;
    if ($offer && $offer->schedule_status !== 'active') $offer = null;
-   if ($data['selected_offer_id'] && !$offer) {
-    return response()->json(['message'=>'That offer is no longer available. Please choose another offer.'],422);
+   if ($offerId && !$offer) {
+    return response()->json(['success'=>false,'message'=>'That offer is no longer available. Please choose another offer.'],422);
    }
-   if (!$data['model'] && !$offer) {
-    return response()->json(['message'=>'Please choose a Hyundai model or offer.'],422);
+   $model = !empty($data['model']) ? trim((string)$data['model']) : null;
+   if (!$model && !$offer) {
+    return response()->json(['success'=>false,'message'=>'Please choose a Hyundai model or offer.'],422);
    }
-   Lead::create(['model'=>$data['model']??null,'selected_offer_id'=>$offer?->id,'name'=>$data['name'],'city'=>$data['city'],'mobile'=>$data['mobile'],'email'=>$data['email']??null,'enquiry_type'=>$data['enquiry_type']??'Best Offer','source'=>'Website']);
+   Lead::create([
+    'model'=>$model,
+    'selected_offer_id'=>$offer?->id,
+    'name'=>$data['name'],
+    'city'=>$data['city'],
+    'mobile'=>$data['mobile'],
+    'email'=>$data['email']??null,
+    'enquiry_type'=>$data['enquiry_type']??'Best Offer',
+    'source'=>'Website'
+   ]);
    return response()->json(['success'=>true,'message'=>'Thanks! Our team will contact you shortly.']);
-  } catch (QueryException $e) {
+  } catch (\Throwable $e) {
    report($e);
-   return response()->json(['message'=>'We could not save your enquiry right now. Please call us or try again shortly.'], 503);
+   return response()->json(['success'=>false,'message'=>'We could not save your enquiry right now. Please call us or try again shortly.'], 500);
   }
  }
 }
