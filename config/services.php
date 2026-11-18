@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'infoman_ecrm' => [
+        'url' => env('INFOMAN_ECRM_URL', 'http://ecrminwappapi.infoman-ecrm.com/Lead/LeadCreation'),
+        'token' => env('INFOMAN_ECRM_TOKEN', 'cP2yC9iiPNndRJhJjMW0KASBeeaar'),
+        'vendor' => env('INFOMAN_ECRM_VENDOR', 'WEbsite'),
+        'make' => env('INFOMAN_ECRM_MAKE', 'HYUNDAI'),
+        'timeout' => (int) env('INFOMAN_ECRM_TIMEOUT', 10),
+    ],
+
 ];
