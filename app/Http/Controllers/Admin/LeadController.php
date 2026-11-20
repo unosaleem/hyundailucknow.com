@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lead;
+use App\Services\InfomanCrmService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -57,6 +58,40 @@ class LeadController extends Controller
         $lead->update(['status' => $lead->status === 'spam' ? 'new' : 'spam']);
 
         return back()->with('success', $lead->status === 'spam' ? 'Lead marked as spam.' : 'Lead restored from spam.');
+    }
+
+    public function syncCrm(Lead $lead, InfomanCrmService $crm)
+    {
+        $result = $crm->sendLead($lead);
+        if ($result['success']) {
+            $notes = trim(($lead->notes ? $lead->notes . ' | ' : '') . 'CRM: Synced (' . now()->format('d M H:i') . ')');
+            $lead->update(['notes' => $notes]);
+
+            return back()->with('success', "Lead #{$lead->id} ({$lead->name}) successfully sent to Infoman eCRM! Response: {$result['response']}");
+        }
+
+        $errorMsg = $result['error'] ?? ('HTTP ' . ($result['status_code'] ?? 'Error') . ': ' . ($result['response'] ?? 'Unknown error'));
+        return back()->with('error', "Failed to sync Lead #{$lead->id} to Infoman eCRM. " . $errorMsg);
+    }
+
+    public function testCrm(Request $request, InfomanCrmService $crm)
+    {
+        $testData = [
+            'name' => 'CRM Test Lead (' . now()->format('H:i') . ')',
+            'city' => 'Lucknow',
+            'mobile' => '9899363534',
+            'email' => 'test@hyundailucknow.com',
+            'model' => 'CRETA',
+        ];
+
+        $result = $crm->sendLead($testData);
+
+        if ($result['success']) {
+            return back()->with('success', "eCRM API Test SUCCESS (HTTP {$result['status_code']}): {$result['response']}");
+        }
+
+        $errorMsg = $result['error'] ?? ('HTTP ' . ($result['status_code'] ?? 'Error') . ': ' . ($result['response'] ?? 'Failed'));
+        return back()->with('error', "eCRM API Test FAILED: " . $errorMsg);
     }
 
     public function destroy(Lead $lead)

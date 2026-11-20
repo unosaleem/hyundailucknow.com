@@ -99,7 +99,13 @@ class PublicController extends Controller
 
             // Sync lead with Infoman eCRM API
             try {
-                app(InfomanCrmService::class)->sendLead($lead);
+                $crmResult = app(InfomanCrmService::class)->sendLead($lead);
+                if (!empty($crmResult['response'])) {
+                    $crmNote = $crmResult['success'] ? 'CRM: Synced' : 'CRM: Failed';
+                    $lead->update([
+                        'notes' => trim(($lead->notes ? $lead->notes . ' | ' : '') . $crmNote . ' (' . now()->format('d M H:i') . ')')
+                    ]);
+                }
             } catch (\Throwable $crmEx) {
                 report($crmEx);
             }
