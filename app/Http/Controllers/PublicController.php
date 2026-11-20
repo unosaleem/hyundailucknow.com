@@ -86,6 +86,7 @@ class PublicController extends Controller
             if (! $model && ! $offer) {
                 return response()->json(['success' => false, 'message' => 'Please choose a Hyundai model or offer.'], 422);
             }
+            $vendor = InfomanCrmService::detectVendor($r);
             $lead = Lead::create([
                 'model' => $model,
                 'selected_offer_id' => $offer?->id,
@@ -94,14 +95,14 @@ class PublicController extends Controller
                 'mobile' => $data['mobile'],
                 'email' => $data['email'] ?? null,
                 'enquiry_type' => $data['enquiry_type'] ?? 'Best Offer',
-                'source' => 'Website',
+                'source' => $vendor === 'WEbsite' ? 'Website' : $vendor,
             ]);
 
             // Sync lead with Infoman eCRM API
             try {
-                $crmResult = app(InfomanCrmService::class)->sendLead($lead);
+                $crmResult = app(InfomanCrmService::class)->sendLead($lead, $vendor);
                 if (!empty($crmResult['response'])) {
-                    $crmNote = $crmResult['success'] ? 'CRM: Synced' : 'CRM: Failed';
+                    $crmNote = ($crmResult['success'] ? 'CRM: Synced' : 'CRM: Failed') . " [{$vendor}]";
                     $lead->update([
                         'notes' => trim(($lead->notes ? $lead->notes . ' | ' : '') . $crmNote . ' (' . now()->format('d M H:i') . ')')
                     ]);

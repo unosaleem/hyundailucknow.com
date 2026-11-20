@@ -315,6 +315,17 @@
     const modal = document.getElementById('form-modal');
     const modalForm = document.getElementById('modal-form');
     const success = document.getElementById('success-state');
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const ref = (document.referrer || '').toLowerCase();
+      let v = '';
+      if (sp.has('fbclid') || /facebook|meta|instagram|fb/i.test(sp.get('utm_source') || '') || /facebook\.com|instagram\.com|fb\.me/i.test(ref)) {
+        v = 'Meta';
+      } else if (sp.has('gclid') || sp.has('gbraid') || sp.has('wbraid') || /google|adwords/i.test(sp.get('utm_source') || '') || /google\./i.test(ref)) {
+        v = 'Google';
+      }
+      if (v) sessionStorage.setItem('ad_vendor', v);
+    } catch (e) {}
     document.querySelectorAll('form').forEach((form) => {
       const startedAt = form.elements.form_started_at;
       if (startedAt) startedAt.value = String(Date.now());
@@ -366,6 +377,8 @@
       try {
         const payload = new FormData(form);
         payload.set('enquiry_type', form.dataset.enquiry || 'Best Offer');
+        const savedVendor = sessionStorage.getItem('ad_vendor');
+        if (savedVendor) payload.set('vendor', savedVendor);
         const csrfMeta = document.querySelector('meta[name=csrf-token]');
         const response = await fetch('{{ route('leads.store') }}', {
           method: 'POST',
